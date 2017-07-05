@@ -19,3 +19,5 @@ To use it:
 
     $ guerrilla --help
 
+# Commands
+## init 
