@@ -1,0 +1,47 @@
+[core]
+editor=nano
+[url "https://"]
+insteadOf = git://
+[credential]
+[diff]
+external = /usr/local/bin/git-diff.sh
+[push]
+	default = simple
+[color "branch"]
+    current = green
+    local = blue
+    remote = green reverse
+
+[color "status"]
+	added = green bold
+	changed = yellow bold
+	untracked = red bold
+
+[color]
+    branch = auto
+    diff = auto
+    status = auto
+
+
+[alias]
+	ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+
+	# commit {{{
+	cm = commit -m
+	cma = commit -a -m
+	ca = commit --amend
+	amend = commit --amend
+	caa = commit -a --amend -C HEAD
+	# }}}
+
+#list remotes
+    rem="!git config -l | grep remote.*url | tail -n +2"
+
+# list all aliases
+    la = "!git config -l | grep alias | cut -c 7-"
+
+# Looks at commits
+	last = log -1 HEAD
+[user]
+	name = guerrillaanalytics
+	email = enda.ridge@gmail.com
