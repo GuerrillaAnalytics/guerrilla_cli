@@ -21,7 +21,7 @@ setup(
     install_requires=dependencies,
     entry_points={
         'console_scripts': [
-            'guerrilla = guerrilla.cli:main',
+            'guerrilla = guerrilla.cli:cli',
         ],
     },
     classifiers=[
