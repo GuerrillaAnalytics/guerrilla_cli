@@ -1,3 +1,6 @@
+###########################################################
+# Based on https://stackoverflow.com/questions/34643620/how-can-i-split-my-click-commands-each-with-a-set-of-sub-commands-into-multipl
+
 import click
 
 @click.group()
@@ -5,29 +8,32 @@ import click
 def cli():
     pass #Entry Point
 
+#############################################################
+# First command group
+#############################################################
 @cli.group()
 @click.pass_context
-def cloudflare(ctx):
+def wp(ctx):
     pass
 
-@cloudflare.group('zone')
-def cloudflare_zone():
+@wp.group('zone')
+def wp_zone():
     pass
 
-@cloudflare_zone.command('add')
+@wp_zone.command('add')
 @click.option('--jumpstart', '-j', default=True)
 @click.option('--organization', '-o', default='')
 @click.argument('url')
 @click.pass_obj
 #@__cf_error_handler
-def cloudflare_zone_add(ctx, url, jumpstart, organization):
+def wp_zone_add(ctx, url, jumpstart, organization):
     pass
 
-@cloudflare.group('record')
-def cloudflare_record():
+@wp.group('record')
+def wp_record():
     pass
 
-@cloudflare_record.command('add')
+@wp_record.command('add')
 @click.option('--ttl', '-t')
 @click.argument('domain')
 @click.argument('name')
@@ -35,10 +41,10 @@ def cloudflare_record():
 @click.argument('content')
 @click.pass_obj
 #@__cf_error_handler
-def cloudflare_record_add(ctx, domain, name, type, content, ttl):
+def wp_record_add(ctx, domain, name, type, content, ttl):
     pass
 
-@cloudflare_record.command('edit')
+@wp_record.command('edit')
 @click.option('--ttl', '-t')
 @click.argument('domain')
 @click.argument('name')
@@ -46,27 +52,35 @@ def cloudflare_record_add(ctx, domain, name, type, content, ttl):
 @click.argument('content')
 @click.pass_obj
 #@__cf_error_handler
-def cloudflare_record_edit(ctx, domain):
+def wp_record_edit(ctx, domain):
     pass
+
+###############################################################
+# Next command group
+###############################################################
 
 @cli.group()
 @click.pass_context
-def uptimerobot(ctx):
+def project(ctx):
     pass
 
-@uptimerobot.command('add')
+@project.command('add')
 @click.option('--alert', '-a', default=True)
 @click.argument('name')
 @click.argument('url')
 @click.pass_obj
-def uptimerobot_add(ctx, name, url, alert):
+def project_add(ctx, name, url, alert):
     pass
 
-@uptimerobot.command('delete')
-@click.argument('names', nargs=-1, required=True)
+@project.command('init')
+@click.argument('name', nargs=-1, required=True)
 @click.pass_obj
-def uptimerobot_delete(ctx, names):
+def project_init(ctx, name):
+    click.echo("Initialising a project")
     pass
 
+#################################################################
+# Give the tool a command line entry point for testing
+#################################################################
 if __name__ == '__main__':
     cli()
