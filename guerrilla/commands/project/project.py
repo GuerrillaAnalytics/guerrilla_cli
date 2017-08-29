@@ -1,4 +1,5 @@
 import click
+from guerrilla.commands.project.utils import *
 
 @click.group()
 @click.pass_context
@@ -16,8 +17,15 @@ def project_add(ctx, name, url, alert):
 
 
 @project.command('init')
-@click.argument('name', nargs=-1, required=True)
+@click.argument('name', nargs=1, required=True)
+
 @click.pass_obj
 def project_init(ctx, name):
-    click.echo("Initialising a project")
+    click.echo(click.style("Initialising a project", fg='green'))
+    try:
+        check_project_name(name)
+    except ProjectException as e:
+        click.echo(click.style(e.args[0], fg='red'))
+
+
     pass
