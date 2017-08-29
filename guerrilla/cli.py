@@ -1,13 +1,15 @@
 ###########################################################
 # Based on https://stackoverflow.com/questions/34643620/how-can-i-split-my-click-commands-each-with-a-set-of-sub-commands-into-multipl
+import sys
+import os.path
+
+sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
+
 
 from guerrilla.commands.project.project import project
 from guerrilla.commands.wp.wp import wp
 
 import click
-import sys
-
-print(sys.path)
 
 
 @click.group()
