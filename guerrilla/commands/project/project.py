@@ -5,6 +5,7 @@ import click
 def project(ctx):
     pass
 
+
 @project.command('add')
 @click.option('--alert', '-a', default=True)
 @click.argument('name')
@@ -12,6 +13,7 @@ def project(ctx):
 @click.pass_obj
 def project_add(ctx, name, url, alert):
     pass
+
 
 @project.command('init')
 @click.argument('name', nargs=-1, required=True)
