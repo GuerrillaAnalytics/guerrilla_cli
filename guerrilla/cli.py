@@ -2,6 +2,9 @@
 # Based on https://stackoverflow.com/questions/34643620/how-can-i-split-my-click-commands-each-with-a-set-of-sub-commands-into-multipl
 
 import click
+import sys
+
+print(sys.path)
 
 from guerrilla.commands.project.project import project
 from guerrilla.commands.wp.wp import wp
