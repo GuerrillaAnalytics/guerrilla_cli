@@ -6,7 +6,7 @@ import os.path
 sys.path.append(os.path.join(os.path.dirname(__file__), '..'))
 
 
-from guerrilla.commands.project.project import project
+from guerrilla.commands.project.project_cmd import project
 from guerrilla.commands.wp.wp import wp
 
 import click
