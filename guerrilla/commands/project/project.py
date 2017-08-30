@@ -18,14 +18,18 @@ def project_add(ctx, name, url, alert):
 
 @project.command('init')
 @click.argument('name', nargs=1, required=True)
+@click.argument('location', required=False)
 
 @click.pass_obj
-def project_init(ctx, name):
+def project_init(ctx, name,location):
     click.echo(click.style("Initialising a project", fg='green'))
+
+    # Check the project name is correct
     try:
         check_project_name(name)
     except ProjectException as e:
         click.echo(click.style(e.args[0], fg='red'))
+
 
 
     pass
