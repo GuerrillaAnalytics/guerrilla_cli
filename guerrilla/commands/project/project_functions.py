@@ -43,8 +43,10 @@ def initialise_project(name,location):
 
     # Check if a config file exists in the folder already
     config = configparser.ConfigParser()
-    cfg=Path(os.path.join(location,"guerrilla.cfg"))
-    if cfg.is_file():
+    cfg=Path(os.path.join(location,name,"guerrilla.config"))
+    print(cfg)
+    if cfg.exists():
+        print("found config")
         click.confirm('A config file already exists in the folder. Do you want to continue?', abort=True)
         config.read(cfg)
         # TODO config activities
