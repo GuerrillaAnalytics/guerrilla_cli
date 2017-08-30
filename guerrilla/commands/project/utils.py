@@ -1,5 +1,5 @@
 import re
-
+import os
 
 class ProjectException(Exception):
     pass
@@ -10,3 +10,9 @@ def check_project_name(project_name):
 
     if not pattern.match(project_name) :
         raise ProjectException("Invalid format project name " + project_name)
+
+
+def check_project_location(folder_location):
+    """Check a folder does not exist and can be created"""
+    if not os.path.exists(folder_location):
+        raise OSError("Project folder location does not exist " + folder_location)
