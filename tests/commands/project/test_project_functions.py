@@ -24,12 +24,7 @@ def test_initialise_project(runner):
     assert os.path.exists(os.path.join(p,"DS001")) == 1
     assert os.path.exists(os.path.join(p,"DS001","wp")) == 1
     assert os.path.exists(os.path.join(p,"DS001","pm")) == 1
-# def test_cli_with_option(runner):
-#     result = runner.invoke(cli.cli, ['--as-cowboy'])
-#     assert not result.exception
-#     assert result.exit_code == 0
-#     assert result.output.strip() == 'Howdy, world.'
-#
+
 #
 # def test_cli_with_arg(runner):
 #     result = runner.invoke(cli.cli, ['Enda'])

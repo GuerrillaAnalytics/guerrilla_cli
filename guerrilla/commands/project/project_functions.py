@@ -27,7 +27,24 @@ def make_folder_if_doesnt_exist(parent_path,folder_name):
         os.makedirs(folder)
         return folder
 
+
+def build_project_config(cfg, existing):
+    """Creates a project configuration"""
+
+    config = configparser.ConfigParser()
+    config.read(cfg)
+    if config.has_section("PostgreSQL"):
+        if config.has_option("PostgreSQL","port"):
+            port = click.prompt('Please enter a port number', default=5432)
+
+    else:
+        print("no section")
+
+
+
+
 def initialise_project(name,location):
+    """Command for initialising a project"""
 
     # Check the project name is correct
     try:
@@ -43,22 +60,28 @@ def initialise_project(name,location):
 
     project_path=os.path.join(location,name)
 
-    # if the folder does not exist, create it
+    # if the project folder does not exist, create it
     if not os.path.exists(project_path):
         os.makedirs(project_path)
 
     # Check if a config file exists in the folder already
-    config = configparser.ConfigParser()
-    cfg=Path(os.path.join(location,name,"guerrilla.config"))
+
+    cfg=os.path.join(location,name,"guerrilla.config")
     print(cfg)
-    if cfg.exists():
-        print("found config")
+    if Path(cfg).exists():
+        print("Found existing config")
         click.confirm('A config file already exists in the folder. Do you want to continue?', abort=True)
-        config.read(cfg)
-        # TODO config activities
+        build_project_config(cfg,existing=True)
+    else:
+        Path(cfg).touch()
+        build_project_config(cfg, existing=False)
+
+
 
     # Make the pm folder tree
     pm_folder=make_folder_if_doesnt_exist(project_path,"pm")
+    print(project_path)
+    print(pm_folder)
     make_folder_if_doesnt_exist(pm_folder,"01_initiate")
     make_folder_if_doesnt_exist(pm_folder, "02_plan")
     make_folder_if_doesnt_exist(pm_folder, "03_execute")
@@ -67,10 +90,5 @@ def initialise_project(name,location):
 
     make_folder_if_doesnt_exist(project_path, "wp")
 
-    # Make the wp folder
-    wp_folder = os.path.join(project_path, "wp")
-    if not os.path.exists(wp_folder):
-        click.echo("creating wp folder")
-        os.makedirs(wp_folder)
 
     pass
