@@ -20,6 +20,12 @@ def check_project_location(folder_location):
     if not os.path.exists(folder_location):
         raise OSError("Project folder location does not exist " + folder_location)
 
+def make_folder_if_doesnt_exist(parent_path,folder_name):
+    folder = os.path.join(parent_path, folder_name)
+    if not os.path.exists(folder):
+        click.echo("creating folder " + folder_name)
+        os.makedirs(folder)
+        return folder
 
 def initialise_project(name,location):
 
@@ -52,35 +58,14 @@ def initialise_project(name,location):
         # TODO config activities
 
     # Make the pm folder tree
-    pm_folder = os.path.join(project_path, "pm")
-    if not os.path.exists(pm_folder):
-        click.echo("creating pm folder")
-        os.makedirs(pm_folder)
+    pm_folder=make_folder_if_doesnt_exist(project_path,"pm")
+    make_folder_if_doesnt_exist(pm_folder,"01_initiate")
+    make_folder_if_doesnt_exist(pm_folder, "02_plan")
+    make_folder_if_doesnt_exist(pm_folder, "03_execute")
+    make_folder_if_doesnt_exist(pm_folder, "04_control")
+    make_folder_if_doesnt_exist(pm_folder, "05_close")
 
-    initiate_folder=os.path.join(pm_folder,"01_initiate")
-    if not os.path.exists(initiate_folder):
-        click.echo("creating initiate folder")
-        os.makedirs(initiate_folder)
-
-    plan_folder=os.path.join(pm_folder,"02_plan")
-    if not os.path.exists(plan_folder):
-        click.echo("creating plan folder")
-        os.makedirs(plan_folder)
-
-    execute_folder=os.path.join(pm_folder,"03_execute")
-    if not os.path.exists(execute_folder):
-        click.echo("creating execute folder")
-        os.makedirs(execute_folder)
-
-    control_folder=os.path.join(pm_folder,"04_control")
-    if not os.path.exists(control_folder):
-        click.echo("creating control folder")
-        os.makedirs(control_folder)
-
-    close_folder=os.path.join(pm_folder,"05_close")
-    if not os.path.exists(close_folder):
-        click.echo("creating closefolder")
-        os.makedirs(close_folder)
+    make_folder_if_doesnt_exist(project_path, "wp")
 
     # Make the wp folder
     wp_folder = os.path.join(project_path, "wp")
