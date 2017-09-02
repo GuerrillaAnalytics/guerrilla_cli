@@ -21,11 +21,13 @@ def check_project_location(folder_location):
         raise OSError("Project folder location does not exist " + folder_location)
 
 def make_folder_if_doesnt_exist(parent_path,folder_name):
+    """Utility function to create a folder if it doesn't already exist"""
     folder = os.path.join(parent_path, folder_name)
     if not os.path.exists(folder):
         click.echo("creating folder " + folder_name)
         os.makedirs(folder)
-        return folder
+
+    return folder
 
 
 def build_project_config(cfg, existing):
@@ -33,12 +35,29 @@ def build_project_config(cfg, existing):
 
     config = configparser.ConfigParser()
     config.read(cfg)
-    if config.has_section("PostgreSQL"):
-        if config.has_option("PostgreSQL","port"):
-            port = click.prompt('Please enter a port number', default=5432)
 
+    section_name="PostgreSQL"
+
+    # if it has the section, ask if user should reconfigure or remove
+    if config.has_section(section_name):
+        reconfigure_answer = click.confirm("Do you wish to keep the PostgreSQL configuration?")
+        if reconfigure_answer==True:
+            option_name = "port"
+            question = "Please enter a port number"
+            if config.has_option(section_name,option_name,):
+                option_value = config.get(section_name,option_name)
+                option_value= click.prompt(question, default=option_value)
+                config.set(section_name,option_name,option_value)
+        else:
+            config.remove_section(section_name)
     else:
-        print("no section")
+        reconfigure_answer = click.confirm("Do you wish to configure PostgreSQL?")
+        if reconfigure_answer==True:
+            config.add_section(section_name)
+
+
+    with open('cfg', 'wt') as configfile:
+        config.write(configfile)
 
 
 
@@ -64,24 +83,21 @@ def initialise_project(name,location):
     if not os.path.exists(project_path):
         os.makedirs(project_path)
 
-    # Check if a config file exists in the folder already
-
-    cfg=os.path.join(location,name,"guerrilla.config")
-    print(cfg)
+    cfg = os.path.join(location, name, "guerrilla.config")
+    #Folder exists and config exists
     if Path(cfg).exists():
         print("Found existing config")
         click.confirm('A config file already exists in the folder. Do you want to continue?', abort=True)
-        build_project_config(cfg,existing=True)
+        build_project_config(cfg, existing=True)
     else:
+        #Folder exists with no config
         Path(cfg).touch()
         build_project_config(cfg, existing=False)
 
 
-
     # Make the pm folder tree
     pm_folder=make_folder_if_doesnt_exist(project_path,"pm")
-    print(project_path)
-    print(pm_folder)
+
     make_folder_if_doesnt_exist(pm_folder,"01_initiate")
     make_folder_if_doesnt_exist(pm_folder, "02_plan")
     make_folder_if_doesnt_exist(pm_folder, "03_execute")

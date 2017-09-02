@@ -6,6 +6,7 @@ import click
 def wp(ctx):
     pass
 
+#example of another subgroup
 @wp.group('zone')
 def wp_zone():
     pass
